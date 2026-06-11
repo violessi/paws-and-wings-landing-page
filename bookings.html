@@ -5,119 +5,998 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book an appointment — Paw &amp; Wings Pet Care Hub</title>
   <meta name="description" content="Book a veterinary, grooming, or wellness appointment with Paw & Wings Pet Care Hub in Springfield." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f0e1;
+      --bg-soft: #ece4cf;
+      --paper: #fbf6ea;
+      --paper-edge: #f1e8d3;
+      --ink: #1a2620;
+      --muted: #5d6862;
+      --quiet: #8b9690;
+      --green: #0F5D52;
+      --green-deep: #073930;
+      --peach: #F29D7A;
+      --peach-deep: #d97954;
+      --sage: #A8C89B;
+      --sage-soft: #d8e4cd;
+      --border: rgba(15, 93, 82, 0.16);
+      --border-strong: rgba(15, 93, 82, 0.32);
+      --serif: 'Newsreader', 'Georgia', serif;
+      --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 56px);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* === TOPBAR (matched to index/services) === */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 28px clamp(20px, 4vw, 56px) 0;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green-deep);
+      position: relative;
+      z-index: 10;
+    }
+
+    .topbar .brand-mark {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-variation-settings: 'opsz' 24, 'SOFT' 100;
+      font-size: 22px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--green);
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .topbar nav { display: flex; gap: 28px; }
+
+    .topbar nav a {
+      color: var(--green-deep);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    .topbar nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--green-deep);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .topbar nav a:hover::after,
+    .topbar nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+    .topbar .meta { color: var(--muted); }
+
+    /* === HERO === */
+    .hero {
+      padding: clamp(56px, 9vw, 120px) 0 clamp(48px, 7vw, 96px);
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      align-items: end;
+    }
+
+    .hero-text { grid-column: 1 / 9; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 72;
+      font-size: clamp(2.4rem, 6.4vw, 5.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.026em;
+      color: var(--green-deep);
+      margin-bottom: 32px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--peach-deep);
+    }
+
+    .hero-lede {
+      font-size: clamp(1.05rem, 1.35vw, 1.22rem);
+      line-height: 1.55;
+      max-width: 520px;
+      color: var(--ink);
+      margin-bottom: 0;
+    }
+
+    .hero-aside {
+      grid-column: 10 / 13;
+      padding-bottom: 8px;
+    }
+
+    .hero-aside-title {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--peach-deep);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .hero-aside ol {
+      list-style: none;
+      counter-reset: steps;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-aside li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 10px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.98rem;
+      line-height: 1.4;
+      color: var(--ink);
+      font-variation-settings: 'opsz' 18;
+    }
+
+    .hero-aside li::before {
+      content: counter(steps, decimal-leading-zero);
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--peach-deep);
+      font-size: 0.85rem;
+      font-variation-settings: 'opsz' 14;
+    }
+
+    /* === FORM SECTION === */
+    .form-section {
+      padding: clamp(72px, 10vw, 120px) 0 clamp(96px, 12vw, 140px);
+      background: var(--paper);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(60% 50% at 10% 0%, rgba(168, 200, 155, 0.18) 0%, transparent 60%),
+        radial-gradient(40% 40% at 90% 100%, rgba(242, 157, 122, 0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .form-section .wrap { position: relative; z-index: 2; }
+
+    .form-shell {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.4) inset,
+        0 30px 60px -30px rgba(15, 93, 82, 0.18);
+      padding: clamp(36px, 5vw, 72px) clamp(28px, 4vw, 64px);
+      position: relative;
+    }
+
+    /* Tape strip — playful little detail at the top of the form */
+    .form-shell::before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      width: 140px;
+      height: 28px;
+      background: rgba(242, 157, 122, 0.5);
+      border: 1px dashed rgba(217, 121, 84, 0.5);
+      border-radius: 2px;
+      box-shadow: 0 4px 12px rgba(15, 93, 82, 0.08);
+    }
+
+    .form-section .form-intro {
+      text-align: center;
+      margin-bottom: clamp(40px, 5vw, 56px);
+      padding-bottom: clamp(32px, 4vw, 40px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-section .form-intro .stamp {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--peach-deep);
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+      font-variation-settings: 'opsz' 18;
+    }
+
+    .form-section .form-intro h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+      line-height: 1.15;
+      color: var(--green-deep);
+      letter-spacing: -0.015em;
+      font-variation-settings: 'opsz' 36;
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 clamp(40px, 5vw, 56px);
+    }
+
+    legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--peach-deep);
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+    legend::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--peach-deep);
+    }
+
+    .field {
+      margin-bottom: 32px;
+    }
+
+    .field label,
+    .radio-group-label {
+      display: block;
+      font-family: var(--serif);
+      font-variation-settings: 'opsz' 24;
+      font-size: 1.15rem;
+      line-height: 1.4;
+      color: var(--green-deep);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .field label em,
+    .radio-group-label em {
+      font-style: italic;
+      color: var(--peach-deep);
+      font-weight: 300;
+    }
+
+    .field .hint {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: -8px;
+      margin-bottom: 12px;
+      display: block;
+      font-variation-settings: 'opsz' 16;
+    }
+
+    /* Underline-style inputs — feels like writing on paper */
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field input[type="date"],
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid var(--border-strong);
+      padding: 10px 0 12px;
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      color: var(--ink);
+      line-height: 1.4;
+      outline: none;
+      transition: border-color 0.3s ease, padding 0.3s ease;
+      border-radius: 0;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 110px;
+      border-bottom: 0;
+      border: 1px solid var(--border-strong);
+      padding: 16px;
+      border-radius: 4px;
+      background: var(--paper);
+      font-family: var(--serif);
+      font-variation-settings: 'opsz' 18;
+      line-height: 1.55;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--quiet);
+      font-style: italic;
+      font-family: var(--serif);
+      font-variation-settings: 'opsz' 18;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--peach-deep);
+    }
+
+    .field input:focus { padding-bottom: 14px; }
+
+    .field select {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23073930' stroke-width='1.5'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+      background-size: 18px;
+      padding-right: 28px;
+      cursor: pointer;
+    }
+
+    /* Two-up row */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    /* Service radio cards */
+    .radio-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .radio-card {
+      position: relative;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 20px;
+      background: var(--paper);
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio-card .rc-title {
+      font-family: var(--serif);
+      font-variation-settings: 'opsz' 24;
+      font-size: 1.08rem;
+      color: var(--green-deep);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .radio-card .rc-meta {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--quiet);
+      font-weight: 500;
+    }
+
+    .radio-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .radio-card:has(input:checked) {
+      border-color: var(--peach-deep);
+      background: rgba(242, 157, 122, 0.08);
+    }
+
+    .radio-card:has(input:checked) .rc-meta {
+      color: var(--peach-deep);
+    }
+
+    /* Submit row */
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--green-deep);
+      color: var(--bg);
+      padding: 18px 32px 18px 36px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    }
+
+    .btn-submit:hover {
+      background: var(--peach-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(217, 121, 84, 0.28);
+    }
+
+    .btn-submit:hover .arrow { transform: translateX(4px); }
+    .btn-submit .arrow { display: inline-block; transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1); }
+
+    .form-actions .signoff {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 1rem;
+      font-variation-settings: 'opsz' 18;
+    }
+
+    /* Success state — replaces form on submit */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: clamp(32px, 5vw, 56px) 8px;
+    }
+    .form-success.is-visible { display: block; }
+    .form-success .checkmark {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--peach);
+      color: #1c0d05;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      box-shadow: 0 14px 28px rgba(217, 121, 84, 0.22);
+      animation: pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .form-success .checkmark svg {
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      fill: none;
+    }
+    .form-success h3 {
+      font-family: var(--serif);
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+      color: var(--green-deep);
+      letter-spacing: -0.018em;
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+    .form-success h3 em {
+      font-style: italic;
+      color: var(--peach-deep);
+      font-weight: 300;
+    }
+    .form-success p {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--ink);
+      font-size: 1.1rem;
+      line-height: 1.55;
+      max-width: 460px;
+      margin: 0 auto 32px;
+      font-variation-settings: 'opsz' 24;
+    }
+
+    .form-success .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green-deep);
+      text-decoration: none;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .form-success .back-btn:hover {
+      color: var(--peach-deep);
+      border-color: var(--peach-deep);
+    }
+
+    /* === CTA back to home === */
+    .home-cta {
+      padding: clamp(72px, 10vw, 120px) 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .home-cta .eyebrow {
+      justify-content: center;
+    }
+
+    .home-cta h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--green-deep);
+      margin-bottom: 28px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .home-cta h2 em {
+      font-style: italic;
+      color: var(--peach-deep);
+      font-weight: 300;
+    }
+
+    .home-cta .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .ghost-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green-deep);
+      text-decoration: none;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 16px 28px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+    }
+
+    .ghost-link.primary {
+      background: var(--green-deep);
+      color: var(--bg);
+      border-color: var(--green-deep);
+    }
+
+    .ghost-link.primary:hover {
+      background: var(--peach-deep);
+      border-color: var(--peach-deep);
+      transform: translateY(-2px);
+    }
+
+    .ghost-link:hover {
+      border-color: var(--peach-deep);
+      color: var(--peach-deep);
+    }
+
+    .ghost-link .arrow { transition: transform 0.3s ease; }
+    .ghost-link:hover .arrow { transform: translateX(-3px); }
+    .ghost-link.primary:hover .arrow { transform: translateX(4px); }
+
+    /* === FOOTER (matched to index) === */
+    footer {
+      background: var(--green-deep);
+      color: var(--sage-soft);
+      padding: clamp(72px, 9vw, 110px) 0 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 28%, rgba(168,200,155,0.08) 0%, transparent 42%),
+        radial-gradient(circle at 82% 72%, rgba(242,157,122,0.10) 0%, transparent 42%);
+      pointer-events: none;
+    }
+
+    footer .wrap { position: relative; z-index: 2; }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      column-gap: 48px;
+      row-gap: 48px;
+      margin-bottom: 72px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 2.8vw, 2.6rem);
+      line-height: 0.98;
+      color: var(--bg);
+      letter-spacing: -0.024em;
+      font-weight: 400;
+      font-variation-settings: 'opsz' 50;
+    }
+
+    .footer-brand em {
+      font-style: italic;
+      color: var(--peach);
+      display: block;
+      font-size: 0.5em;
+      margin-top: 14px;
+      letter-spacing: 0.02em;
+      font-weight: 300;
+      font-variation-settings: 'opsz' 24;
+    }
+
+    .footer-col h4 {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .footer-col p, .footer-col a {
+      display: block;
+      color: var(--sage-soft);
+      font-size: 0.96rem;
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color 0.3s;
+    }
+
+    .footer-col a:hover { color: var(--peach); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(168, 200, 155, 0.15);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+
+    .footer-bottom .mark {
+      font-family: var(--serif);
+      font-style: italic;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 13px;
+      color: var(--sage-soft);
+      font-variation-settings: 'opsz' 14;
+    }
+
+    /* === Animations === */
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.4); opacity: 0; }
+      60% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .reveal {
+      opacity: 0;
+      animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .delay-1 { animation-delay: 0.06s; }
+    .delay-2 { animation-delay: 0.18s; }
+    .delay-3 { animation-delay: 0.32s; }
+    .delay-4 { animation-delay: 0.46s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { animation: none; opacity: 1; }
+      .form-success .checkmark { animation: none; }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 880px) {
+      .topbar { flex-wrap: wrap; gap: 12px; padding-top: 22px; }
+      .topbar nav { gap: 18px; }
+      .topbar .meta { display: none; }
+
+      .hero-grid { grid-template-columns: 1fr; row-gap: 40px; }
+      .hero-text, .hero-aside { grid-column: 1; }
+
+      .field-row { grid-template-columns: 1fr; gap: 32px; }
+      .radio-cards { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+    }
+
+    @media (max-width: 520px) {
+      .form-actions { flex-direction: column; align-items: stretch; }
+      .btn-submit { width: 100%; justify-content: center; }
+      .home-cta .row { flex-direction: column; }
+      .ghost-link { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
   <!-- TOPBAR -->
   <header class="topbar">
-    <a href="index.html" class="brand-mark">Paw &amp; Wings</a>
-    <nav>
+    <a href="index.html" class="brand-mark reveal delay-1">Paw &amp; Wings</a>
+    <nav class="reveal delay-2">
       <a href="index.html#about">About</a>
+      <a href="services.html">Services</a>
       <a href="index.html#stories">Stories</a>
       <a href="bookings.html" aria-current="page">Bookings</a>
       <a href="index.html#contact">Contact</a>
     </nav>
-    <div class="meta">Est. 2026 · Springfield</div>
+    <div class="meta reveal delay-2">Est. 2026 · Springfield</div>
   </header>
 
-  <!-- INTRO -->
-  <section class="intro">
+  <!-- HERO -->
+  <section class="hero">
     <div class="wrap">
-      <div class="eyebrow">Bookings</div>
-      <h1>Book an appointment.</h1>
-      <p class="lede">
-        Tell us a little about your companion and what they need. We'll confirm
-        a time by email within one business day.
-      </p>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="eyebrow reveal delay-1">Bookings</div>
+          <h1 class="reveal delay-2">Tell us about your <em>companion</em>.</h1>
+          <p class="hero-lede reveal delay-3">
+            A few questions — names, what they're coming in for, and when works for
+            you. We'll write back to confirm within a business day.
+          </p>
+        </div>
+        <aside class="hero-aside reveal delay-3" aria-label="What to expect">
+          <div class="hero-aside-title">What happens next</div>
+          <ol>
+            <li>We read every request by hand.</li>
+            <li>We'll email to confirm or suggest a time.</li>
+            <li>You both arrive — we take it from there.</li>
+          </ol>
+        </aside>
+      </div>
     </div>
   </section>
 
-  <!-- BOOKING FORM -->
-  <section class="booking">
+  <!-- FORM -->
+  <section class="form-section" id="form">
     <div class="wrap">
-      <form class="booking-form" novalidate>
+      <div class="form-shell">
 
-        <fieldset>
-          <legend>Your details</legend>
-
-          <div class="field">
-            <label for="name">Full name</label>
-            <input id="name" name="name" type="text" required autocomplete="name" />
-          </div>
-
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required autocomplete="email" />
-          </div>
-
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" />
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Your companion</legend>
-
-          <div class="field">
-            <label for="pet-name">Pet's name</label>
-            <input id="pet-name" name="pet-name" type="text" />
-          </div>
-
-          <div class="field">
-            <label for="pet-type">Pet type</label>
-            <select id="pet-type" name="pet-type" required>
-              <option value="">Choose…</option>
-              <option>Dog</option>
-              <option>Cat</option>
-              <option>Bird</option>
-              <option>Rabbit</option>
-              <option>Reptile</option>
-              <option>Small mammal (hamster, guinea pig, etc.)</option>
-              <option>Other / exotic</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>What do you need?</legend>
-
-          <div class="field field-group">
-            <label><input type="radio" name="service" value="vet" required /> Veterinary visit</label>
-            <label><input type="radio" name="service" value="grooming" /> Grooming &amp; spa</label>
-            <label><input type="radio" name="service" value="wellness" /> Wellness &amp; nutrition</label>
-            <label><input type="radio" name="service" value="supplies" /> Supplies consultation</label>
-          </div>
-
-          <div class="field">
-            <label for="date">Preferred date</label>
-            <input id="date" name="date" type="date" />
-          </div>
-
-          <div class="field">
-            <label for="time">Preferred time</label>
-            <select id="time" name="time">
-              <option value="">Any time</option>
-              <option>Morning (8 AM – 12 PM)</option>
-              <option>Afternoon (12 PM – 4 PM)</option>
-              <option>Evening (4 PM – 7 PM)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="notes">Anything we should know</label>
-            <textarea id="notes" name="notes" rows="4" placeholder="Anxious around dogs, recent surgery, dietary needs…"></textarea>
-          </div>
-        </fieldset>
-
-        <div class="actions">
-          <button type="submit">Request appointment</button>
-          <p class="fineprint">
-            We'll get back to you within one business day to confirm your slot.
-          </p>
+        <div class="form-intro" id="form-top">
+          <div class="stamp">For new &amp; returning visitors</div>
+          <h2>One small form. One careful reply.</h2>
         </div>
 
-      </form>
+        <form id="booking-form" novalidate>
+
+          <fieldset>
+            <legend>Your details</legend>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="name">What's your name?</label>
+                <input id="name" name="name" type="text" required autocomplete="name" placeholder="Your full name" />
+              </div>
+              <div class="field">
+                <label for="email">Where should we reach you?</label>
+                <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone <em>— if you'd like a call back</em></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 555-5555" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Your companion</legend>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="pet-name">What's your pet's name?</label>
+                <input id="pet-name" name="pet-name" type="text" placeholder="e.g. Daisy, Pip, Cleo" />
+              </div>
+              <div class="field">
+                <label for="pet-type">What kind of <em>friend</em> are they?</label>
+                <select id="pet-type" name="pet-type" required>
+                  <option value="">Choose one…</option>
+                  <option>Dog</option>
+                  <option>Cat</option>
+                  <option>Bird</option>
+                  <option>Rabbit</option>
+                  <option>Reptile</option>
+                  <option>Small mammal (hamster, guinea pig, etc.)</option>
+                  <option>Other / exotic</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>What do they need?</legend>
+
+            <div class="field" role="group" aria-labelledby="service-label">
+              <div class="radio-group-label" id="service-label">Pick a starting point — we'll narrow in over email.</div>
+              <div class="radio-cards">
+                <label class="radio-card">
+                  <input type="radio" name="service" value="vet" required />
+                  <span class="rc-meta">01 · Veterinary</span>
+                  <span class="rc-title">A vet visit</span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="service" value="grooming" />
+                  <span class="rc-meta">02 · Grooming</span>
+                  <span class="rc-title">Grooming &amp; spa</span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="service" value="wellness" />
+                  <span class="rc-meta">03 · Wellness</span>
+                  <span class="rc-title">A wellness consult</span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="service" value="supplies" />
+                  <span class="rc-meta">04 · Supplies</span>
+                  <span class="rc-title">Help choosing supplies</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="date">When suits you?</label>
+                <input id="date" name="date" type="date" />
+              </div>
+              <div class="field">
+                <label for="time">Time of day</label>
+                <select id="time" name="time">
+                  <option value="">Any time</option>
+                  <option>Morning &nbsp;·&nbsp; 8 AM – 12 PM</option>
+                  <option>Afternoon &nbsp;·&nbsp; 12 PM – 4 PM</option>
+                  <option>Evening &nbsp;·&nbsp; 4 PM – 7 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="notes">Anything we should know?</label>
+              <span class="hint">Anxious around dogs, recent surgery, dietary needs, exotic specifics — anything.</span>
+              <textarea id="notes" name="notes" rows="4" placeholder="A few words — or a paragraph if it helps."></textarea>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Send my request <span class="arrow">→</span></button>
+            <p class="signoff">We'll write back within one business day.</p>
+          </div>
+
+        </form>
+
+        <div class="form-success" id="form-success" role="status" aria-live="polite">
+          <div class="checkmark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Thank you, <em>we've got it</em>.</h3>
+          <p>We'll write back to confirm or suggest a time within one business day. Until then, give your companion a scratch from us.</p>
+          <a href="index.html" class="back-btn">← Back to home</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA back home -->
+  <section class="home-cta">
+    <div class="wrap">
+      <div class="eyebrow">Not ready yet?</div>
+      <h2>Take another walk through <em>what we do</em>.</h2>
+      <div class="row">
+        <a href="index.html" class="ghost-link primary"><span class="arrow">←</span> Back to home</a>
+        <a href="services.html" class="ghost-link">Browse services</a>
+      </div>
     </div>
   </section>
 
@@ -125,7 +1004,7 @@
   <footer id="contact">
     <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-brand">Paw &amp; Wings — Pet Care Hub</div>
+        <div class="footer-brand">Paw &amp; Wings<em>Pet Care Hub</em></div>
         <div class="footer-col">
           <h4>Visit</h4>
           <p>123 Greenfield Lane</p>
@@ -136,12 +1015,51 @@
           <a href="mailto:hello@pawandwings.com">hello@pawandwings.com</a>
           <a href="tel:+15551234567">(555) 123-4567</a>
         </div>
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <a href="https://instagram.com/pawandwings" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://facebook.com/pawandwings" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://tiktok.com/@pawandwings" target="_blank" rel="noopener noreferrer">TikTok</a>
+          <a href="https://youtube.com/@pawandwings" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
       </div>
       <div class="footer-bottom">
         <span>© 2026 Paw &amp; Wings Pet Care Hub</span>
+        <a href="index.html" class="mark">← Back to home</a>
       </div>
     </div>
   </footer>
+
+  <script>
+    // Booking form handler — prevent default, validate, swap to success state.
+    // (No real backend yet; production would POST this to a form endpoint
+    //  like Formspree/Resend and email the clinic.)
+    (function () {
+      const form = document.getElementById('booking-form');
+      const success = document.getElementById('form-success');
+      const top = document.getElementById('form-top');
+      if (!form || !success) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Native validation pass — surface browser hints if anything's missing.
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        // Hand off the request state to the success panel.
+        form.style.transition = 'opacity 0.4s ease, transform 0.5s ease';
+        form.style.opacity = '0';
+        form.style.transform = 'translateY(-8px)';
+        setTimeout(() => {
+          form.style.display = 'none';
+          if (top) top.style.display = 'none';
+          success.classList.add('is-visible');
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 420);
+      });
+    })();
+  </script>
 
 </body>
 </html>
