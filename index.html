@@ -3,201 +3,1105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paw &amp; Wings Pet Care Hub</title>
+  <title>Paw &amp; Wings Pet Care Hub — A home for every kind of pet</title>
+  <meta name="description" content="A one-stop veterinary, grooming, wellness, and pet supply center for pets of all kinds in Springfield." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&display=swap" rel="stylesheet">
   <style>
     :root {
+      --bg: #f6f0e1;
+      --bg-soft: #ece4cf;
+      --paper: #fbf6ea;
+      --ink: #1a2620;
+      --muted: #5d6862;
       --green: #0F5D52;
+      --green-deep: #073930;
       --peach: #F29D7A;
+      --peach-deep: #d97954;
       --sage: #A8C89B;
-      --cream: #FBF7F1;
-      --ink: #e8efec;
-      --bg: #121815;
-      --bg-soft: #1a2320;
-      --muted: #b8c4bf;
+      --sage-soft: #d8e4cd;
+      --border: rgba(15, 93, 82, 0.16);
+      --serif: 'Newsreader', 'Georgia', serif;
+      --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
     }
 
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.6;
       color: var(--ink);
       background: var(--bg);
-      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      position: relative;
+      font-feature-settings: "ss01";
     }
 
-    .container {
-      max-width: 960px;
+    /* Subtle paper grain — only over body, behind content */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    .wrap {
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 clamp(20px, 4vw, 56px);
+      position: relative;
+      z-index: 2;
     }
 
-    /* Hero */
+    /* === TOPBAR === */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 28px clamp(20px, 4vw, 56px) 0;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green-deep);
+      position: relative;
+      z-index: 10;
+    }
+
+    .topbar .brand-mark {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-variation-settings: 'opsz' 24, 'SOFT' 100;
+      font-size: 22px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .topbar nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    .topbar nav a {
+      color: var(--green-deep);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 3px;
+    }
+
+    .topbar nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--green-deep);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .topbar nav a:hover::after { transform: scaleX(1); }
+
+    .topbar .meta { color: var(--muted); }
+
+    /* === HERO === */
     .hero {
-      background: linear-gradient(180deg, #14342f 0%, var(--bg) 100%);
-      padding: 72px 24px 80px;
-      text-align: center;
+      position: relative;
+      padding: clamp(48px, 8vw, 96px) 0 clamp(64px, 10vw, 120px);
     }
 
-    .hero img {
-      width: 180px;
-      height: 180px;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #fff;
-      padding: 12px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      align-items: end;
+    }
+
+    .hero-text {
+      grid-column: 1 / 9;
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-overline {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 36px;
+      font-weight: 500;
+    }
+
+    .hero-overline::before {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: var(--green);
     }
 
     .hero h1 {
-      font-size: 2.5rem;
-      margin: 24px 0 8px;
-      color: var(--sage);
-      letter-spacing: -0.5px;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 72;
+      font-size: clamp(2.75rem, 8.2vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.028em;
+      color: var(--green-deep);
+      margin-bottom: 40px;
     }
 
-    .hero .tagline {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--peach);
-      margin: 0;
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--peach-deep);
+      font-variation-settings: 'opsz' 72;
+      letter-spacing: -0.01em;
     }
 
-    /* About */
-    .about {
-      padding: 72px 0;
+    .hero-tagline {
+      font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+      line-height: 1.55;
+      max-width: 500px;
+      color: var(--ink);
+      margin-bottom: 44px;
     }
 
-    .about h2 {
-      color: var(--sage);
-      font-size: 1.8rem;
-      margin: 0 0 16px;
-      text-align: center;
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 500;
     }
 
-    .about p {
+    .hero-cta-row a {
+      color: var(--green-deep);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .hero-cta-row a:hover { border-bottom-color: var(--green); color: var(--green); }
+
+    .hero-cta-row .sep { color: var(--muted); opacity: 0.5; }
+
+    /* Logo area */
+    .hero-logo {
+      grid-column: 9 / 13;
+      position: relative;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-logo .blob {
+      position: absolute;
+      inset: -8%;
+      width: 116%;
+      height: 116%;
+      z-index: 1;
+      animation: blob-float 10s ease-in-out infinite;
+    }
+
+    .hero-logo img {
+      position: relative;
+      z-index: 2;
+      width: 88%;
+      height: 88%;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 32px rgba(7, 57, 48, 0.16));
+    }
+
+    .hero-footnote {
+      margin-top: clamp(56px, 9vw, 96px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      font-size: 10.5px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
       color: var(--muted);
     }
 
-    .cta-wrap {
-      text-align: center;
-      margin-top: 36px;
+    .hero-footnote::before, .hero-footnote::after {
+      content: '';
+      width: clamp(40px, 6vw, 80px);
+      height: 1px;
+      background: var(--muted);
+      opacity: 0.35;
+    }
+
+    /* === ABOUT === */
+    .about {
+      background: var(--paper);
+      padding: clamp(80px, 12vw, 140px) 0;
+      position: relative;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: clamp(32px, 5vw, 80px);
+      row-gap: 48px;
+    }
+
+    .about-header {
+      grid-column: 1 / 6;
+      position: sticky;
+      top: 48px;
+      align-self: start;
+    }
+
+    .section-mark {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .section-mark::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--green);
+    }
+
+    .about-header h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(2.1rem, 4.2vw, 3.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--green-deep);
+    }
+
+    .about-header h2 em {
+      font-style: italic;
+      color: var(--peach-deep);
+      font-weight: 300;
+    }
+
+    .about-body {
+      grid-column: 7 / 13;
+    }
+
+    .about-body p {
+      font-size: clamp(1.05rem, 1.25vw, 1.18rem);
+      line-height: 1.65;
+      color: var(--ink);
+      margin-bottom: 22px;
+      max-width: 580px;
+    }
+
+    .about-body p:first-of-type::first-letter {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 4.4em;
+      line-height: 0.82;
+      float: left;
+      margin: 0.08em 0.12em -0.05em -0.05em;
+      color: var(--peach-deep);
+      font-variation-settings: 'opsz' 72;
+    }
+
+    .services {
+      list-style: none;
+      margin-top: 64px;
+      border-top: 1px solid var(--border);
+    }
+
+    .services li {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: baseline;
+      gap: 28px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .services li:hover { padding-left: 14px; }
+
+    .services .num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--peach-deep);
+      font-variation-settings: 'opsz' 24;
+    }
+
+    .services .label {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+      letter-spacing: -0.012em;
+      color: var(--green-deep);
+      font-variation-settings: 'opsz' 28;
+    }
+
+    .services .tag {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .about-cta-row {
+      margin-top: 56px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
     }
 
     .cta {
-      display: inline-block;
-      background: var(--peach);
-      color: #1a1a1a;
-      padding: 14px 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--green-deep);
+      color: var(--bg);
+      padding: 18px 30px 18px 34px;
       border-radius: 999px;
-      font-weight: 700;
       text-decoration: none;
-      font-size: 1rem;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 4px 14px rgba(242, 157, 122, 0.25);
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    }
+
+    .cta .arrow {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
     }
 
     .cta:hover {
+      background: var(--peach-deep);
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(242, 157, 122, 0.4);
+      box-shadow: 0 14px 28px rgba(217, 121, 84, 0.28);
     }
 
-    .about .accent {
-      width: 60px;
-      height: 4px;
-      background: var(--peach);
-      border-radius: 2px;
-      margin: 0 auto 28px;
-    }
+    .cta:hover .arrow { transform: translateX(4px); }
 
-    .about p {
+    .cta-note {
       font-size: 1.05rem;
-      max-width: 680px;
-      margin: 0 auto 16px;
-      text-align: center;
-    }
-
-    /* Footer */
-    footer {
-      background: var(--bg-soft);
       color: var(--muted);
-      padding: 40px 24px;
-      text-align: center;
-      border-top: 1px solid #243029;
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 18;
     }
 
-    footer h3 {
-      margin: 0 0 12px;
+    /* === FOOTER === */
+    footer {
+      background: var(--green-deep);
+      color: var(--sage-soft);
+      padding: clamp(80px, 10vw, 120px) 0 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 18% 28%, rgba(168,200,155,0.08) 0%, transparent 42%),
+        radial-gradient(circle at 82% 72%, rgba(242,157,122,0.10) 0%, transparent 42%);
+      pointer-events: none;
+    }
+
+    footer .wrap { position: relative; z-index: 2; }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      column-gap: 56px;
+      row-gap: 56px;
+      margin-bottom: 80px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+      line-height: 0.98;
+      color: var(--bg);
+      letter-spacing: -0.024em;
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+    }
+
+    .footer-brand em {
+      font-style: italic;
       color: var(--peach);
-      font-size: 1.2rem;
+      display: block;
+      font-size: 0.5em;
+      margin-top: 16px;
+      letter-spacing: 0.02em;
+      font-weight: 300;
+      font-variation-settings: 'opsz' 30;
     }
 
-    footer a {
+    .footer-col h4 {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
       color: var(--sage);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .footer-col h4:not(:first-child) {
+      margin-top: 28px;
+    }
+
+    .footer-col p, .footer-col a {
+      display: block;
+      color: var(--sage-soft);
+      font-size: 0.98rem;
       text-decoration: none;
-      margin: 0 10px;
+      margin-bottom: 6px;
+      transition: color 0.3s;
     }
 
-    footer a:hover {
+    .footer-col a:hover { color: var(--peach); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(168, 200, 155, 0.15);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+
+    .footer-bottom .mark {
+      font-family: var(--serif);
+      font-style: italic;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 13px;
+      color: var(--sage-soft);
+      font-variation-settings: 'opsz' 14;
+    }
+
+    /* === STORIES (Carousel) === */
+    .stories {
+      padding: clamp(80px, 12vw, 140px) 0 clamp(96px, 14vw, 160px);
+      position: relative;
+      background: var(--bg);
+    }
+
+    .stories-head {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: clamp(32px, 5vw, 80px);
+      align-items: end;
+      margin-bottom: clamp(56px, 8vw, 88px);
+    }
+
+    .stories-head .head-left {
+      grid-column: 1 / 9;
+    }
+
+    .stories-head .head-right {
+      grid-column: 9 / 13;
+      display: flex;
+      gap: 14px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .stories-head h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(2.1rem, 4.2vw, 3.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--green-deep);
+      margin-bottom: 24px;
+    }
+
+    .stories-head h2 em {
+      font-style: italic;
+      color: var(--peach-deep);
+      font-weight: 300;
+    }
+
+    .stories-sub {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.5;
+      font-variation-settings: 'opsz' 24;
+    }
+
+    .car-arrow {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--green-deep);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.25s ease;
+      font-family: var(--sans);
+    }
+
+    .car-arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .car-arrow:hover:not(:disabled) {
+      background: var(--green-deep);
+      color: var(--bg);
+      border-color: var(--green-deep);
+    }
+
+    .car-arrow:disabled {
+      opacity: 0.28;
+      cursor: not-allowed;
+    }
+
+    .car-arrow:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+
+    .carousel {
+      position: relative;
+    }
+
+    .car-viewport {
+      overflow: hidden;
+    }
+
+    .car-track {
+      display: flex;
+      gap: clamp(16px, 1.8vw, 28px);
+      transition: transform 700ms cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform;
+    }
+
+    .car-card {
+      flex: 0 0 calc((100% - 2 * clamp(16px, 1.8vw, 28px)) / 3);
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      aspect-ratio: 4 / 5;
+      background: var(--paper);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    }
+
+    .car-card .car-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--sage-soft);
+    }
+
+    .car-card:hover .car-img { transform: scale(1.05); }
+
+    .car-card-tag {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 3;
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: rgba(7, 57, 48, 0.78);
+      padding: 8px 14px 7px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      font-weight: 500;
+    }
+
+    .car-card-name {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      right: 22px;
+      z-index: 3;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 36;
+      font-size: clamp(1.4rem, 1.8vw, 1.7rem);
+      line-height: 1.05;
+      color: var(--bg);
+      text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+      letter-spacing: -0.015em;
+      transition: opacity 400ms ease, transform 500ms cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .car-card-name em {
+      font-style: italic;
       color: var(--peach);
+      display: block;
+      font-size: 0.62em;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      font-weight: 300;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.4);
     }
 
-    footer .contact {
-      margin-bottom: 12px;
+    .car-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7,57,48,0.92) 0%, rgba(7,57,48,0.96) 100%);
+      padding: clamp(22px, 2.4vw, 32px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transform: translateY(100%);
+      transition: transform 700ms cubic-bezier(0.65, 0, 0.35, 1);
+      z-index: 4;
     }
 
-    footer .copy {
-      margin-top: 20px;
-      font-size: 0.85rem;
-      opacity: 0.75;
+    .car-card:hover .car-card-overlay,
+    .car-card.is-open .car-card-overlay { transform: translateY(0); }
+    .car-card:hover .car-card-name,
+    .car-card.is-open .car-card-name { opacity: 0; transform: translateY(8px); }
+
+    .car-card-overlay .ov-eyebrow {
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--peach);
+      margin-bottom: 14px;
+      font-weight: 500;
     }
 
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 2rem; }
-      .hero img { width: 140px; height: 140px; }
-      .about { padding: 56px 0; }
+    .car-card-overlay p {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 24;
+      font-size: clamp(1rem, 1.15vw, 1.18rem);
+      line-height: 1.5;
+      color: var(--bg);
+    }
+
+    .car-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: clamp(32px, 4vw, 48px);
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .car-meta .hint {
+      font-family: var(--serif);
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 14px;
+      color: var(--muted);
+      font-variation-settings: 'opsz' 16;
+    }
+
+    /* === Animations === */
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      animation: reveal-up 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.18s; }
+    .delay-3 { animation-delay: 0.32s; }
+    .delay-4 { animation-delay: 0.46s; }
+    .delay-5 { animation-delay: 0.62s; }
+
+    @keyframes blob-float {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      50% { transform: translateY(-14px) rotate(3deg) scale(1.015); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .hero-logo .blob { animation: none; opacity: 1; }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 880px) {
+      .topbar { padding-top: 22px; flex-wrap: wrap; gap: 12px; }
+      .topbar nav { gap: 22px; }
+      .topbar .meta { display: none; }
+
+      .hero { padding-bottom: 48px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-text { grid-column: 1; order: 2; }
+      .hero-logo {
+        grid-column: 1;
+        order: 1;
+        max-width: 280px;
+        margin: 0 auto 28px;
+      }
+      .hero h1 { margin-bottom: 28px; }
+      .hero-footnote { display: none; }
+
+      .about-grid { grid-template-columns: 1fr; }
+      .about-header { grid-column: 1; position: static; }
+      .about-body { grid-column: 1; }
+      .about-body p:first-of-type::first-letter { font-size: 3.6em; }
+
+      .services li { grid-template-columns: 40px 1fr; }
+      .services .tag { grid-column: 1 / -1; padding-left: 68px; margin-top: -10px; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+
+      .stories-head { grid-template-columns: 1fr; row-gap: 32px; }
+      .stories-head .head-left, .stories-head .head-right { grid-column: 1; justify-content: flex-start; }
+      .car-card { flex: 0 0 calc((100% - clamp(16px, 1.8vw, 28px)) / 2); }
+    }
+
+    @media (max-width: 560px) {
+      .car-card { flex: 0 0 100%; aspect-ratio: 4 / 4.6; }
+      .car-card-name { font-size: 1.45rem; }
     }
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand-mark reveal delay-1">Paw &amp; Wings</div>
+    <nav class="reveal delay-2">
+      <a href="#about">About</a>
+      <a href="#stories">Stories</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="meta reveal delay-2">Est. 2026 · Springfield</div>
+  </header>
+
   <section class="hero">
-    <img src="brand-assets/ChatGPT%20Image%20Jun%2012%2C%202026%2C%2003_05_59%20AM.png" alt="Paw & Wings Pet Care Hub logo" />
-    <h1>Paw &amp; Wings Pet Care Hub</h1>
-    <p class="tagline">Trusted care, grooming, and supplies for every kind of companion.</p>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="hero-overline reveal delay-1">Pet Care Hub</div>
+          <h1 class="reveal delay-2">A home for every <em>kind</em> of companion.</h1>
+          <p class="hero-tagline reveal delay-3">Veterinary care, grooming, wellness, and supplies — for dogs, cats, birds, reptiles, and all the small ones in between. Under one warm roof.</p>
+          <div class="hero-cta-row reveal delay-4">
+            <a href="#about">What we do</a>
+            <span class="sep">·</span>
+            <a href="#contact">Visit us</a>
+          </div>
+        </div>
+        <div class="hero-logo reveal delay-3">
+          <svg class="blob" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#A8C89B" opacity="0.6" d="M324.5,265Q302,330,235,360Q168,390,107.5,348Q47,306,38.5,225Q30,144,80,86Q130,28,210,38Q290,48,329,109Q368,170,346.5,217.5Q325,265,324.5,265Z" />
+          </svg>
+          <img src="brand-assets/ChatGPT%20Image%20Jun%2012%2C%202026%2C%2003_05_59%20AM.png" alt="Paw & Wings Pet Care Hub logo featuring a dog, cat, parrot, rabbit, turtle, snake, hamster and cockatiel inside a soft house outline">
+        </div>
+      </div>
+      <div class="hero-footnote reveal delay-5">A one-stop hub for traditional &amp; exotic companions</div>
+    </div>
   </section>
 
-  <section class="about">
-    <div class="container">
-      <h2>About Us</h2>
-      <div class="accent"></div>
-      <p>
-        Paw &amp; Wings is a one-stop veterinary, grooming, wellness, and pet supply center
-        for pets of all kinds &mdash; from dogs and cats to birds, reptiles, rabbits, and
-        hamsters.
-      </p>
-      <p>
-        We bring together professional veterinary care, friendly grooming services, and a
-        curated selection of quality supplies under one roof, so pet owners can give their
-        companions the best in health and happiness.
-      </p>
-      <div class="cta-wrap">
-        <a href="#contact" class="cta">Get in Touch</a>
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="about-header">
+          <div class="section-mark">01 — About</div>
+          <h2>One roof for <em>every</em> pet, big, small, feathered, or scaled.</h2>
+        </div>
+        <div class="about-body">
+          <p>Paw &amp; Wings is a one-stop veterinary, grooming, wellness, and pet supply center for pets of all kinds — from dogs and cats to birds, reptiles, rabbits, and hamsters.</p>
+          <p>We bring together professional veterinary care, friendly grooming services, and a curated selection of quality supplies under one roof, so pet owners can give their companions the best in health and happiness.</p>
+
+          <ul class="services">
+            <li>
+              <span class="num">01</span>
+              <span class="label">Veterinary care</span>
+              <span class="tag">Wellness · Surgery</span>
+            </li>
+            <li>
+              <span class="num">02</span>
+              <span class="label">Grooming &amp; spa</span>
+              <span class="tag">Coat · Nails · Bath</span>
+            </li>
+            <li>
+              <span class="num">03</span>
+              <span class="label">Wellness &amp; nutrition</span>
+              <span class="tag">Diet · Supplements</span>
+            </li>
+            <li>
+              <span class="num">04</span>
+              <span class="label">Pet supplies</span>
+              <span class="tag">Food · Toys · Habitats</span>
+            </li>
+          </ul>
+
+          <div class="about-cta-row">
+            <a href="#contact" class="cta">Get in touch <span class="arrow">→</span></a>
+            <span class="cta-note">We'd love to meet your companion.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stories" id="stories">
+    <div class="wrap">
+      <div class="stories-head">
+        <div class="head-left">
+          <div class="section-mark">02 — Stories</div>
+          <h2>Familiar <em>faces</em>.</h2>
+          <p class="stories-sub">A few of the companions we've come to know — and the small, careful routines that keep them coming back.</p>
+        </div>
+        <div class="head-right">
+          <button class="car-arrow car-prev" aria-label="Previous companion" data-dir="prev">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="car-arrow car-next" aria-label="Next companion" data-dir="next">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="carousel" data-carousel>
+        <div class="car-viewport">
+          <div class="car-track">
+            <article class="car-card">
+              <img class="car-img" loading="lazy" src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Golden retriever portrait">
+              <div class="car-card-tag">Wellness</div>
+              <div class="car-card-name"><em>Daisy</em>Golden Retriever</div>
+              <div class="car-card-overlay">
+                <div class="ov-eyebrow">Wellness · Dental</div>
+                <p>Monthly nail trims and an annual dental clean — ever since she was a pup.</p>
+              </div>
+            </article>
+
+            <article class="car-card">
+              <img class="car-img" loading="lazy" src="https://images.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Hummingbird on a branch">
+              <div class="car-card-tag">Rehab</div>
+              <div class="car-card-name"><em>Pip</em>Rescue Fledgling</div>
+              <div class="car-card-overlay">
+                <div class="ov-eyebrow">Rehab · Release</div>
+                <p>A few quiet weeks of rehab — then a careful release back to the garden where she was found.</p>
+              </div>
+            </article>
+
+            <article class="car-card">
+              <img class="car-img" loading="lazy" src="https://images.pexels.com/photos/372166/pexels-photo-372166.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Rabbit in a meadow">
+              <div class="car-card-tag">Nutrition</div>
+              <div class="car-card-name"><em>Fern</em>Mini Rex Rabbit</div>
+              <div class="car-card-overlay">
+                <div class="ov-eyebrow">Nutrition · Habitat</div>
+                <p>A tailored diet plan and a habitat she actually enjoys — small choices that keep her hopping.</p>
+              </div>
+            </article>
+
+            <article class="car-card">
+              <img class="car-img" loading="lazy" src="https://images.pexels.com/photos/33045/lion-wild-africa-african.jpg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Big cat at a sanctuary">
+              <div class="car-card-tag">Partner</div>
+              <div class="car-card-name"><em>Atlas</em>Sanctuary Resident</div>
+              <div class="car-card-overlay">
+                <div class="ov-eyebrow">Sanctuary · Referral</div>
+                <p>Quarterly visits and wellness coordination with partner big-cat sanctuaries inside fifty miles.</p>
+              </div>
+            </article>
+
+            <article class="car-card">
+              <img class="car-img" loading="lazy" src="https://images.pexels.com/photos/52500/horse-herd-fog-nature-52500.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Horses in a misty field">
+              <div class="car-card-tag">Field call</div>
+              <div class="car-card-name"><em>The Stables</em>Equine Field Calls</div>
+              <div class="car-card-overlay">
+                <div class="ov-eyebrow">On-farm · Equine</div>
+                <p>On-site vet visits across Springfield's working stables — vaccinations, lameness checks, dental floats.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="car-meta">
+          <span>Hover any card · Tap on mobile</span>
+          <span class="hint">A few of the many we look after.</span>
+        </div>
       </div>
     </div>
   </section>
 
   <footer id="contact">
-    <h3>Get in Touch</h3>
-    <div class="contact">
-      <div>123 Greenfield Lane, Springfield</div>
-      <div>hello@pawandwings.com &middot; (555) 123-4567</div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">Paw &amp; Wings<em>Pet Care Hub</em></div>
+        <div class="footer-col">
+          <h4>Visit</h4>
+          <p>123 Greenfield Lane</p>
+          <p>Springfield</p>
+          <h4>Hours</h4>
+          <p>Mon–Sat &nbsp;·&nbsp; 8 AM – 7 PM</p>
+          <p>Sunday &nbsp;·&nbsp; 9 AM – 4 PM</p>
+        </div>
+        <div class="footer-col">
+          <h4>Reach us</h4>
+          <a href="mailto:hello@pawandwings.com">hello@pawandwings.com</a>
+          <a href="tel:+15551234567">(555) 123-4567</a>
+          <h4>Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">TikTok</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Paw &amp; Wings Pet Care Hub</span>
+        <span class="mark">Made with care in Springfield</span>
+      </div>
     </div>
-    <div>
-      <a href="#">Instagram</a> &middot;
-      <a href="#">Facebook</a> &middot;
-      <a href="#">TikTok</a>
-    </div>
-    <div class="copy">&copy; 2026 Paw &amp; Wings Pet Care Hub. All rights reserved.</div>
   </footer>
+
+  <script>
+    (function () {
+      const carousel = document.querySelector('[data-carousel]');
+      if (!carousel) return;
+
+      const track = carousel.querySelector('.car-track');
+      const cards = Array.from(track.children);
+      const prevBtn = document.querySelector('.car-prev');
+      const nextBtn = document.querySelector('.car-next');
+
+      let index = 0;
+      let isAnimating = false;
+
+      const cardsPerView = () => {
+        const w = window.innerWidth;
+        if (w < 560) return 1;
+        if (w < 880) return 2;
+        return 3;
+      };
+
+      const step = () => {
+        const first = cards[0];
+        const second = cards[1];
+        if (!second) return first.offsetWidth;
+        return second.offsetLeft - first.offsetLeft;
+      };
+
+      const maxIndex = () => Math.max(0, cards.length - cardsPerView());
+
+      const update = (animate = true) => {
+        if (index > maxIndex()) index = maxIndex();
+        if (!animate) track.style.transition = 'none';
+        else track.style.transition = '';
+        track.style.transform = `translateX(${-index * step()}px)`;
+        if (!animate) {
+          // force reflow then restore transition
+          void track.offsetWidth;
+          track.style.transition = '';
+        }
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index >= maxIndex();
+      };
+
+      const go = (dir) => {
+        if (isAnimating) return;
+        const m = maxIndex();
+        const next = Math.max(0, Math.min(m, index + dir));
+        if (next === index) return;
+        index = next;
+        isAnimating = true;
+        update(true);
+        setTimeout(() => { isAnimating = false; }, 720);
+      };
+
+      prevBtn.addEventListener('click', () => go(-1));
+      nextBtn.addEventListener('click', () => go(1));
+
+      // Keyboard support when carousel area focused
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      });
+
+      // Tap-to-toggle overlay on touch devices (since :hover doesn't apply)
+      const isTouch = window.matchMedia('(hover: none)').matches;
+      if (isTouch) {
+        cards.forEach(card => {
+          card.addEventListener('click', (e) => {
+            const wasOpen = card.classList.contains('is-open');
+            cards.forEach(c => c.classList.remove('is-open'));
+            if (!wasOpen) card.classList.add('is-open');
+          });
+        });
+      }
+
+      // Resize handling — debounced
+      let t;
+      window.addEventListener('resize', () => {
+        clearTimeout(t);
+        t = setTimeout(() => update(false), 120);
+      });
+
+      // Initial layout — run after images may have laid out
+      update(false);
+      window.addEventListener('load', () => update(false));
+    })();
+  </script>
 </body>
 </html>
