@@ -17,3 +17,6 @@ Thumbs.db
 desktop.ini
 
 .vercel
+
+# Source video used only for frame extraction; the extracted JPGs ship.
+frames/source.mp4

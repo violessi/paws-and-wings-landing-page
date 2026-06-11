@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Paw &amp; Wings Pet Care Hub</title>
+  <meta name="description" content="Veterinary care, grooming, wellness, and pet supplies at Paw & Wings Pet Care Hub in Springfield." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a1612;
+      --bg-soft: #0f1e1a;
+      --panel: #14241f;
+      --line: rgba(246, 240, 225, 0.10);
+      --line-soft: rgba(246, 240, 225, 0.06);
+      --ink: #f6f0e1;
+      --ink-muted: rgba(246, 240, 225, 0.62);
+      --ink-quiet: rgba(246, 240, 225, 0.38);
+      --green: #0F5D52;
+      --green-mid: #1b3d36;
+      --sage: #A8C89B;
+      --peach: #F29D7A;
+      --peach-deep: #d97954;
+      --serif: 'Newsreader', 'Georgia', serif;
+      --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Film grain — quietly over everything */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.25;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.16 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    .wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 56px);
+      position: relative;
+    }
+
+    /* === TOPBAR === */
+    .topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 30px clamp(20px, 4vw, 56px) 0;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .topbar .brand-mark {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 24;
+      font-size: 22px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink);
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .topbar nav { display: flex; gap: 28px; }
+
+    .topbar nav a,
+    .topbar .meta {
+      color: var(--ink);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 3px;
+      opacity: 0.85;
+    }
+
+    .topbar nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--peach);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .topbar nav a:hover::after,
+    .topbar nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+    .topbar .home-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar .home-back .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .topbar .home-back:hover .arrow {
+      transform: translateX(-3px);
+    }
+
+    /* === HERO === */
+    /* Tall outer track — the user scrolls through this whole thing,
+       and the sticky stage inside renders frames tied to scroll progress. */
+    .hero {
+      position: relative;
+      height: 260vh;
+      background: var(--bg);
+    }
+
+    .hero-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      align-items: stretch;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--bg);
+    }
+
+    .hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      filter: saturate(0.92) contrast(1.05);
+      display: block;
+    }
+
+    /* Scroll cue — subtle vertical line + label at the foot of the stage */
+    .scroll-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink-quiet);
+      pointer-events: none;
+      opacity: 0.9;
+      transition: opacity 0.4s ease;
+    }
+    .scroll-hint.is-faded { opacity: 0; }
+    .scroll-hint .hint-line {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(180deg, var(--ink-muted), transparent);
+      transform-origin: top;
+      animation: hint-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes hint-pulse {
+      0%, 100% { transform: scaleY(1); opacity: 0.9; }
+      50% { transform: scaleY(0.35); opacity: 0.3; }
+    }
+
+    /* Multi-layer overlay: vertical gradient + vignette + green tint */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(120% 80% at 50% 100%, rgba(10, 22, 18, 0.85) 0%, rgba(10, 22, 18, 0.3) 50%, transparent 80%),
+        linear-gradient(180deg, rgba(10, 22, 18, 0.55) 0%, rgba(10, 22, 18, 0.05) 30%, rgba(10, 22, 18, 0.5) 70%, rgba(10, 22, 18, 0.95) 100%),
+        linear-gradient(135deg, rgba(15, 93, 82, 0.2) 0%, transparent 50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      align-self: end;
+      padding: 0 0 clamp(60px, 8vw, 100px);
+    }
+
+    .hero-content .wrap {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      align-items: end;
+    }
+
+    .hero-main {
+      grid-column: 1 / 9;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--peach);
+      margin-bottom: 36px;
+      font-weight: 500;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: var(--peach);
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 72;
+      font-size: clamp(2.6rem, 7.2vw, 6.5rem);
+      line-height: 0.96;
+      letter-spacing: -0.026em;
+      color: var(--ink);
+      margin-bottom: 32px;
+      text-shadow: 0 2px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--peach);
+    }
+
+    .hero-lede {
+      font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+      line-height: 1.55;
+      max-width: 540px;
+      color: var(--ink);
+      opacity: 0.92;
+      margin-bottom: 44px;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 32px 18px 36px;
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.4s ease, color 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--peach);
+      color: #1c0d05;
+      box-shadow: 0 8px 24px rgba(242, 157, 122, 0.28);
+    }
+
+    .btn-primary:hover {
+      background: #ffb89a;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(242, 157, 122, 0.4);
+    }
+
+    .btn-primary:hover .arrow { transform: translateX(4px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid rgba(246, 240, 225, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--peach);
+      color: var(--peach);
+    }
+
+    .btn .arrow { display: inline-block; transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1); }
+
+    .hero-side {
+      grid-column: 10 / 13;
+      align-self: end;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .hero-rec {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--peach);
+      margin-bottom: 14px;
+    }
+
+    .hero-rec .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--peach);
+      box-shadow: 0 0 0 4px rgba(242, 157, 122, 0.15);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    .hero-side .stamp {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--ink-muted);
+      font-variation-settings: 'opsz' 16;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1.4;
+    }
+
+    /* Corner frame markers */
+    .hero-frame {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: rgba(246, 240, 225, 0.35);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .hero-frame.tl { top: 24px; left: 24px; border-top: 1px solid; border-left: 1px solid; }
+    .hero-frame.tr { top: 24px; right: 24px; border-top: 1px solid; border-right: 1px solid; }
+    .hero-frame.bl { bottom: 24px; left: 24px; border-bottom: 1px solid; border-left: 1px solid; }
+    .hero-frame.br { bottom: 24px; right: 24px; border-bottom: 1px solid; border-right: 1px solid; }
+
+    /* === FEATURES === */
+    .features {
+      padding: clamp(96px, 14vw, 160px) 0 clamp(80px, 12vw, 140px);
+      background: var(--bg);
+      position: relative;
+    }
+
+    .features-head {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      align-items: end;
+      margin-bottom: clamp(64px, 9vw, 96px);
+    }
+
+    .features-head .left { grid-column: 1 / 9; }
+    .features-head .right { grid-column: 9 / 13; padding-bottom: 12px; }
+
+    .section-mark {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--peach);
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .section-mark::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--peach);
+    }
+
+    .features h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--ink);
+    }
+
+    .features h2 em {
+      font-style: italic;
+      color: var(--peach);
+      font-weight: 300;
+    }
+
+    .features-head .right p {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--ink-muted);
+      font-size: 1.1rem;
+      line-height: 1.5;
+      max-width: 320px;
+      margin-left: auto;
+      text-align: right;
+      font-variation-settings: 'opsz' 18;
+    }
+
+    .features-grid {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .feature {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: clamp(20px, 3vw, 48px);
+      align-items: baseline;
+      padding: clamp(28px, 4vw, 44px) 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+      position: relative;
+    }
+
+    .feature::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, rgba(242, 157, 122, 0.04), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .feature:hover { padding-left: 20px; }
+    .feature:hover::before { opacity: 1; }
+
+    .feature .num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(2.2rem, 3.6vw, 3rem);
+      line-height: 1;
+      color: var(--peach);
+      letter-spacing: -0.02em;
+    }
+
+    .feature .body { max-width: 640px; }
+
+    .feature .title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 36;
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .feature .kicker {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--peach);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .feature .desc {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--ink-muted);
+      max-width: 520px;
+    }
+
+    .feature .meta {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-quiet);
+      align-self: center;
+      white-space: nowrap;
+    }
+
+    /* === VIDEO CALLOUTS === */
+    .callouts {
+      padding: clamp(80px, 12vw, 140px) 0;
+      background: var(--bg-soft);
+      position: relative;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .callouts-head {
+      max-width: 760px;
+      margin-bottom: clamp(48px, 7vw, 80px);
+    }
+
+    .callouts-head h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 60;
+      font-size: clamp(2rem, 4.4vw, 3.4rem);
+      line-height: 1.04;
+      letter-spacing: -0.022em;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    .callouts-head h2 em {
+      font-style: italic;
+      color: var(--peach);
+      font-weight: 300;
+    }
+
+    .callouts-head p {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+      line-height: 1.5;
+      color: var(--ink-muted);
+      max-width: 580px;
+      font-variation-settings: 'opsz' 24;
+    }
+
+    .callouts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 2.4vw, 32px);
+    }
+
+    .callout {
+      position: relative;
+      padding: clamp(28px, 3vw, 40px);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, background 0.4s ease;
+      text-align: left;
+      color: inherit;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-height: 280px;
+      overflow: hidden;
+    }
+
+    .callout::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--peach), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .callout:hover {
+      transform: translateY(-4px);
+      border-color: rgba(242, 157, 122, 0.4);
+      background: #182a25;
+    }
+    .callout:hover::after { opacity: 1; }
+
+    .callout-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .callout-stamp {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 18;
+      font-size: 1rem;
+      color: var(--peach);
+      padding: 6px 12px;
+      border: 1px solid rgba(242, 157, 122, 0.35);
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+
+    .callout-play {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-muted);
+      transition: all 0.4s ease;
+    }
+
+    .callout:hover .callout-play {
+      border-color: var(--peach);
+      color: var(--peach);
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .callout-play svg {
+      width: 12px; height: 12px;
+      fill: currentColor;
+    }
+
+    .callout h3 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 36;
+      font-size: clamp(1.45rem, 2vw, 1.75rem);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-top: auto;
+    }
+
+    .callout h3 em {
+      font-style: italic;
+      color: var(--peach);
+    }
+
+    .callout p {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--ink-muted);
+      font-variation-settings: 'opsz' 18;
+    }
+
+    /* === CTA BAND === */
+    .cta-band {
+      padding: clamp(96px, 14vw, 160px) 0;
+      position: relative;
+      background: var(--bg);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(60% 80% at 50% 100%, rgba(242, 157, 122, 0.08) 0%, transparent 60%),
+        radial-gradient(40% 60% at 20% 20%, rgba(15, 93, 82, 0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-band .wrap { position: relative; z-index: 2; }
+
+    .cta-band .section-mark {
+      justify-content: center;
+    }
+    .cta-band .section-mark::before {
+      display: none;
+    }
+
+    .cta-band h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: 'opsz' 72;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.026em;
+      color: var(--ink);
+      margin-bottom: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-band h2 em {
+      font-style: italic;
+      color: var(--peach);
+      font-weight: 300;
+    }
+
+    .cta-band .lede {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+      color: var(--ink-muted);
+      max-width: 520px;
+      margin: 0 auto 44px;
+      line-height: 1.5;
+      font-variation-settings: 'opsz' 24;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: #050d0a;
+      color: var(--ink-muted);
+      padding: clamp(72px, 9vw, 110px) 0 28px;
+      border-top: 1px solid var(--line-soft);
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      column-gap: 48px;
+      row-gap: 48px;
+      margin-bottom: 72px;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: -0.022em;
+      font-weight: 400;
+      font-variation-settings: 'opsz' 36;
+    }
+
+    .footer-brand em {
+      font-style: italic;
+      color: var(--peach);
+      display: block;
+      font-size: 0.55em;
+      margin-top: 14px;
+      letter-spacing: 0.02em;
+      font-weight: 300;
+      font-variation-settings: 'opsz' 24;
+    }
+
+    .footer-col h4 {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--peach);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .footer-col p, .footer-col a {
+      display: block;
+      color: var(--ink-muted);
+      font-size: 0.96rem;
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color 0.3s;
+    }
+
+    .footer-col a:hover { color: var(--peach); }
+
+    .footer-socials {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-socials a {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-socials a::before {
+      content: '↗';
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--ink-quiet);
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .footer-socials a:hover::before {
+      color: var(--peach);
+      transform: translate(2px, -2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--line-soft);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-quiet);
+    }
+
+    .footer-bottom .mark {
+      font-family: var(--serif);
+      font-style: italic;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 13px;
+      color: var(--ink-muted);
+      font-variation-settings: 'opsz' 14;
+    }
+
+    /* === Animations === */
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(242, 157, 122, 0.15); }
+      50% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(242, 157, 122, 0.05); }
+    }
+
+    .reveal {
+      opacity: 0;
+      animation: reveal-up 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.24s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 0.56s; }
+    .delay-5 { animation-delay: 0.72s; }
+    .delay-6 { animation-delay: 0.88s; }
+
+    /* Intersection-observed scroll reveals */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .scroll-reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .scroll-reveal { opacity: 1; transform: none; animation: none; }
+      .hero-video { display: none; }
+      .hero-rec .dot { animation: none; }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 980px) {
+      .features-head { grid-template-columns: 1fr; row-gap: 24px; }
+      .features-head .left, .features-head .right { grid-column: 1; }
+      .features-head .right p { text-align: left; margin-left: 0; }
+
+      .callouts-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { flex-wrap: wrap; gap: 12px; padding-top: 22px; }
+      .topbar nav { gap: 18px; }
+      .topbar .meta { display: none; }
+
+      .hero { min-height: 92vh; }
+      .hero-content .wrap { grid-template-columns: 1fr; row-gap: 28px; }
+      .hero-main { grid-column: 1; }
+      .hero-side { grid-column: 1; justify-self: start; text-align: left; }
+      .hero-cta-row { width: 100%; }
+      .btn { padding: 16px 24px; }
+
+      .feature { grid-template-columns: 64px 1fr; gap: 20px; }
+      .feature .meta { grid-column: 1 / -1; padding-left: 84px; margin-top: -8px; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+
+      .hero-frame { width: 18px; height: 18px; }
+      .hero-frame.tl, .hero-frame.tr { top: 14px; }
+      .hero-frame.bl, .hero-frame.br { bottom: 14px; }
+      .hero-frame.tl, .hero-frame.bl { left: 14px; }
+      .hero-frame.tr, .hero-frame.br { right: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <a href="index.html" class="brand-mark reveal delay-1">Paw &amp; Wings</a>
+    <nav class="reveal delay-2">
+      <a href="index.html#about">About</a>
+      <a href="services.html" aria-current="page">Services</a>
+      <a href="index.html#stories">Stories</a>
+      <a href="bookings.html">Bookings</a>
+      <a href="index.html" class="home-back"><span class="arrow">←</span> Home</a>
+    </nav>
+    <div class="meta reveal delay-2">Springfield · Est. 2026</div>
+  </header>
+
+  <!-- HERO (scroll-driven frame sequence) -->
+  <section class="hero" id="hero" data-frames="90" data-frame-path="frames/frame_">
+    <div class="hero-stage">
+      <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+
+      <span class="hero-frame tl"></span>
+      <span class="hero-frame tr"></span>
+      <span class="hero-frame bl"></span>
+      <span class="hero-frame br"></span>
+
+      <div class="hero-content">
+        <div class="wrap">
+          <div class="hero-main">
+            <div class="hero-eyebrow reveal delay-1">Services · The Hub</div>
+            <h1 class="reveal delay-2">Care under one roof — for every <em>kind</em> of companion.</h1>
+            <p class="hero-lede reveal delay-3">
+              From a routine dental to specialised exotic care, every visit is
+              shaped around the animal in front of us. Quietly, carefully, and
+              on their terms.
+            </p>
+            <div class="hero-cta-row reveal delay-4">
+              <a href="bookings.html" class="btn btn-primary">Book a visit <span class="arrow">→</span></a>
+              <a href="#features" class="btn btn-ghost">Explore services</a>
+            </div>
+          </div>
+          <div class="hero-side reveal delay-4">
+            <div class="hero-rec"><span class="dot"></span> Now booking</div>
+            <p class="stamp">Springfield clinic<br>weekdays, weekends, &amp; emergencies</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+        <span>Scroll to play</span>
+        <span class="hint-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="wrap">
+      <div class="features-head">
+        <div class="left">
+          <div class="section-mark scroll-reveal">01 — What we do</div>
+          <h2 class="scroll-reveal">Five practices, one roof, <em>every</em> kind of pet.</h2>
+        </div>
+        <div class="right scroll-reveal">
+          <p>We don't refer out for the things that matter — exotic, avian, and small mammals all included.</p>
+        </div>
+      </div>
+
+      <div class="features-grid">
+
+        <article class="feature scroll-reveal">
+          <div class="num">01</div>
+          <div class="body">
+            <div class="kicker">Wellness · Surgery · Diagnostics</div>
+            <h3 class="title">Veterinary care</h3>
+            <p class="desc">Routine check-ups, vaccinations, dental, surgery, and in-house lab work — for dogs, cats, and exotic companions alike.</p>
+          </div>
+          <div class="meta">All species</div>
+        </article>
+
+        <article class="feature scroll-reveal">
+          <div class="num">02</div>
+          <div class="body">
+            <div class="kicker">Coat · Nails · Bath</div>
+            <h3 class="title">Grooming &amp; spa</h3>
+            <p class="desc">Gentle, low-stress grooming tailored to coat type, age, and temperament — including specialised handling for nervous pets.</p>
+          </div>
+          <div class="meta">Mon–Sat</div>
+        </article>
+
+        <article class="feature scroll-reveal">
+          <div class="num">03</div>
+          <div class="body">
+            <div class="kicker">Diet · Supplements · Behaviour</div>
+            <h3 class="title">Wellness &amp; nutrition</h3>
+            <p class="desc">Tailored nutrition plans, supplements, and behavioural guidance to support healthy lifespans across species and life-stages.</p>
+          </div>
+          <div class="meta">By appt.</div>
+        </article>
+
+        <article class="feature scroll-reveal">
+          <div class="num">04</div>
+          <div class="body">
+            <div class="kicker">Reptiles · Birds · Small mammals</div>
+            <h3 class="title">Exotic &amp; avian medicine</h3>
+            <p class="desc">A vet team trained for the companions most clinics refer out — from parrots and cockatiels to rabbits, reptiles, and hamsters.</p>
+          </div>
+          <div class="meta">Specialty</div>
+        </article>
+
+        <article class="feature scroll-reveal">
+          <div class="num">05</div>
+          <div class="body">
+            <div class="kicker">Food · Toys · Habitats</div>
+            <h3 class="title">Pet supplies</h3>
+            <p class="desc">A curated in-clinic shop with veterinarian-approved food, enrichment, and habitats — including hard-to-find exotic supplies.</p>
+          </div>
+          <div class="meta">In-clinic</div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO CALLOUTS -->
+  <section class="callouts" id="callouts">
+    <div class="wrap">
+      <div class="callouts-head scroll-reveal">
+        <div class="section-mark">02 — Moments</div>
+        <h2>Small moments, scrubbed back to the <em>video</em>.</h2>
+        <p>Tap a moment to see it again — three quiet beats that say more about how we work than any brochure.</p>
+      </div>
+
+      <div class="callouts-grid">
+        <button class="callout scroll-reveal" data-seek="2" type="button" aria-label="Jump video to 0:02 — The quiet hello">
+          <div class="callout-top">
+            <span class="callout-stamp">00:02</span>
+            <span class="callout-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+            </span>
+          </div>
+          <p>"Hands stay low. The dog reads us before we ever touch."</p>
+          <h3>The quiet <em>hello</em>.</h3>
+        </button>
+
+        <button class="callout scroll-reveal" data-seek="6" type="button" aria-label="Jump video to 0:06 — Trust, won slowly">
+          <div class="callout-top">
+            <span class="callout-stamp">00:06</span>
+            <span class="callout-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+            </span>
+          </div>
+          <p>"Every appointment is paced to the animal, not the clock."</p>
+          <h3>Trust, won <em>slowly</em>.</h3>
+        </button>
+
+        <button class="callout scroll-reveal" data-seek="11" type="button" aria-label="Jump video to 0:11 — The tail-wag confirmation">
+          <div class="callout-top">
+            <span class="callout-stamp">00:11</span>
+            <span class="callout-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+            </span>
+          </div>
+          <p>"You can tell when a pet has decided we're alright. We wait for it."</p>
+          <h3>The tail-wag <em>nod</em>.</h3>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band" id="book">
+    <div class="wrap">
+      <div class="section-mark scroll-reveal">03 — Ready when you are</div>
+      <h2 class="scroll-reveal">Ready when your <em>companion</em> is.</h2>
+      <p class="lede scroll-reveal">Pick a time that works for both of you. We'll confirm by email within a business day.</p>
+      <div class="scroll-reveal">
+        <a href="bookings.html" class="btn btn-primary">Book an appointment <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">Paw &amp; Wings<em>Pet Care Hub</em></div>
+
+        <div class="footer-col">
+          <h4>Visit</h4>
+          <p>123 Greenfield Lane</p>
+          <p>Springfield</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Reach us</h4>
+          <a href="mailto:hello@pawandwings.com">hello@pawandwings.com</a>
+          <a href="tel:+15551234567">(555) 123-4567</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram">Instagram</a>
+            <a href="#" aria-label="Facebook">Facebook</a>
+            <a href="#" aria-label="TikTok">TikTok</a>
+            <a href="#" aria-label="YouTube">YouTube</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Paw &amp; Wings Pet Care Hub</span>
+        <a href="index.html" class="mark">← Back to home</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-driven frame sequence — the "video" is 90 JPEGs drawn to <canvas>
+    // tied to scroll progress through the tall #hero section.
+    (function () {
+      const hero = document.getElementById('hero');
+      const canvas = document.getElementById('hero-canvas');
+      const hint = document.getElementById('scroll-hint');
+      if (!hero || !canvas) return;
+
+      const FRAME_COUNT = parseInt(hero.dataset.frames, 10) || 90;
+      const FRAME_PATH = hero.dataset.framePath || 'frames/frame_';
+      const VIDEO_DURATION_S = 14;
+
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const images = new Array(FRAME_COUNT);
+      let loadedFlags = new Uint8Array(FRAME_COUNT);
+      let currentFrame = -1;
+      let pending = false;
+
+      const framePathFor = (i) =>
+        `${FRAME_PATH}${String(i + 1).padStart(3, '0')}.jpg`;
+
+      // Cover-style draw: scale image to fill canvas while preserving aspect.
+      function drawImage(img) {
+        if (!img || !img.complete || !img.naturalWidth) return;
+        const dpr = window.devicePixelRatio || 1;
+        const cw = canvas.clientWidth;
+        const ch = canvas.clientHeight;
+        if (canvas.width !== Math.round(cw * dpr) || canvas.height !== Math.round(ch * dpr)) {
+          canvas.width = Math.round(cw * dpr);
+          canvas.height = Math.round(ch * dpr);
+        }
+        const w = canvas.width;
+        const h = canvas.height;
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        const scale = Math.max(w / iw, h / ih);
+        const dw = iw * scale;
+        const dh = ih * scale;
+        ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
+      }
+
+      // Draw the requested frame, falling back to the nearest loaded one.
+      function drawFrame(idx) {
+        idx = Math.max(0, Math.min(FRAME_COUNT - 1, idx));
+        const img = images[idx];
+        if (img && loadedFlags[idx]) { drawImage(img); return; }
+        // search outward for a loaded neighbour
+        for (let off = 1; off < FRAME_COUNT; off++) {
+          const a = idx - off, b = idx + off;
+          if (a >= 0 && loadedFlags[a]) { drawImage(images[a]); return; }
+          if (b < FRAME_COUNT && loadedFlags[b]) { drawImage(images[b]); return; }
+        }
+      }
+
+      // Preload all frames in parallel; browsers will cap concurrency.
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = framePathFor(i);
+        const i_ = i;
+        img.onload = () => {
+          loadedFlags[i_] = 1;
+          if (i_ === currentFrame) drawImage(img);
+          if (i_ === 0 && currentFrame === -1) {
+            currentFrame = 0;
+            drawImage(img);
+          }
+        };
+        images[i] = img;
+      }
+
+      function progress() {
+        const rect = hero.getBoundingClientRect();
+        const scrollable = hero.offsetHeight - window.innerHeight;
+        if (scrollable <= 0) return 0;
+        const scrolled = Math.max(0, Math.min(scrollable, -rect.top));
+        return scrolled / scrollable;
+      }
+
+      function update() {
+        pending = false;
+        const p = progress();
+        const idx = Math.min(FRAME_COUNT - 1, Math.floor(p * FRAME_COUNT));
+        if (idx !== currentFrame) {
+          currentFrame = idx;
+          drawFrame(idx);
+        }
+        // Fade scroll hint once the user begins scrolling
+        if (hint) hint.classList.toggle('is-faded', p > 0.04);
+      }
+
+      function onScroll() {
+        if (reduceMotion) return;
+        if (!pending) {
+          pending = true;
+          requestAnimationFrame(update);
+        }
+      }
+
+      function onResize() {
+        // Force redraw at new size
+        if (currentFrame >= 0) drawFrame(currentFrame);
+        else drawFrame(0);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onResize);
+      // Kick once when at least the first frame is in
+      if (loadedFlags[0]) drawFrame(0);
+      // Initial position (handles page load mid-scroll, e.g. browser restore)
+      update();
+
+      // Video callouts: scrub the scroll position to match a timestamp.
+      // Compute the frame index from the seek-seconds, map to scroll Y inside the hero.
+      document.querySelectorAll('[data-seek]').forEach(el => {
+        el.addEventListener('click', () => {
+          const t = parseFloat(el.getAttribute('data-seek'));
+          if (!Number.isFinite(t)) return;
+          const frameIdx = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round((t / VIDEO_DURATION_S) * FRAME_COUNT)));
+          const targetProgress = frameIdx / FRAME_COUNT;
+          const scrollable = hero.offsetHeight - window.innerHeight;
+          const targetY = hero.offsetTop + targetProgress * scrollable;
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        });
+      });
+    })();
+
+    // IntersectionObserver scroll reveals
+    (function () {
+      const els = document.querySelectorAll('.scroll-reveal');
+      if (!('IntersectionObserver' in window) || !els.length) {
+        els.forEach(el => el.classList.add('in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            // Tiny stagger within a section to feel orchestrated
+            setTimeout(() => entry.target.classList.add('in'), i * 80);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+      els.forEach(el => io.observe(el));
+    })();
+  </script>
+
+</body>
+</html>

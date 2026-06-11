@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book an appointment — Paw &amp; Wings Pet Care Hub</title>
+  <meta name="description" content="Book a veterinary, grooming, or wellness appointment with Paw & Wings Pet Care Hub in Springfield." />
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <a href="index.html" class="brand-mark">Paw &amp; Wings</a>
+    <nav>
+      <a href="index.html#about">About</a>
+      <a href="index.html#stories">Stories</a>
+      <a href="bookings.html" aria-current="page">Bookings</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="meta">Est. 2026 · Springfield</div>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="wrap">
+      <div class="eyebrow">Bookings</div>
+      <h1>Book an appointment.</h1>
+      <p class="lede">
+        Tell us a little about your companion and what they need. We'll confirm
+        a time by email within one business day.
+      </p>
+    </div>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section class="booking">
+    <div class="wrap">
+      <form class="booking-form" novalidate>
+
+        <fieldset>
+          <legend>Your details</legend>
+
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your companion</legend>
+
+          <div class="field">
+            <label for="pet-name">Pet's name</label>
+            <input id="pet-name" name="pet-name" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="pet-type">Pet type</label>
+            <select id="pet-type" name="pet-type" required>
+              <option value="">Choose…</option>
+              <option>Dog</option>
+              <option>Cat</option>
+              <option>Bird</option>
+              <option>Rabbit</option>
+              <option>Reptile</option>
+              <option>Small mammal (hamster, guinea pig, etc.)</option>
+              <option>Other / exotic</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>What do you need?</legend>
+
+          <div class="field field-group">
+            <label><input type="radio" name="service" value="vet" required /> Veterinary visit</label>
+            <label><input type="radio" name="service" value="grooming" /> Grooming &amp; spa</label>
+            <label><input type="radio" name="service" value="wellness" /> Wellness &amp; nutrition</label>
+            <label><input type="radio" name="service" value="supplies" /> Supplies consultation</label>
+          </div>
+
+          <div class="field">
+            <label for="date">Preferred date</label>
+            <input id="date" name="date" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="time">Preferred time</label>
+            <select id="time" name="time">
+              <option value="">Any time</option>
+              <option>Morning (8 AM – 12 PM)</option>
+              <option>Afternoon (12 PM – 4 PM)</option>
+              <option>Evening (4 PM – 7 PM)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes">Anything we should know</label>
+            <textarea id="notes" name="notes" rows="4" placeholder="Anxious around dogs, recent surgery, dietary needs…"></textarea>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit">Request appointment</button>
+          <p class="fineprint">
+            We'll get back to you within one business day to confirm your slot.
+          </p>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">Paw &amp; Wings — Pet Care Hub</div>
+        <div class="footer-col">
+          <h4>Visit</h4>
+          <p>123 Greenfield Lane</p>
+          <p>Springfield</p>
+        </div>
+        <div class="footer-col">
+          <h4>Reach us</h4>
+          <a href="mailto:hello@pawandwings.com">hello@pawandwings.com</a>
+          <a href="tel:+15551234567">(555) 123-4567</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Paw &amp; Wings Pet Care Hub</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
